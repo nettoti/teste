@@ -14,8 +14,8 @@
 //Route::get('/', 'WelcomeController@index');
 
 Route::get('/', 'SalesController@index');
-Route::get('/list', 'SalesController@listSales');
-Route::get('/store', 'SalesController@storeUpload');
+Route::get('list', 'SalesController@listSales');
+Route::post('upload', 'SalesController@Upload');
 
 Route::get('home', 'HomeController@index');
 

@@ -6,7 +6,7 @@
     
     <div class='row col-md-12'>
         
-        <table class='table table-bordered table-hover table-striped'>           
+        <table class='table table-hover table-striped'>           
             <thead>
                 <tr>
                     <th>id</th>
@@ -39,8 +39,8 @@
                 <td>{{ $sale->merchant_name }}</td>
                 
                 <td>
-                    <a href="#"class="btn-sm btn-success">Editar</a>
-                    <a href="#" class="btn-sm btn-danger">Remover</a>
+                    <a href="#">Editar</a> | 
+                    <a href="#">Remover</a>
                 </td>
                 
                 </td>
