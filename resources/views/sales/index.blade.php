@@ -7,7 +7,7 @@
     <div class='row col-md-4 well'>
     <h1 align='center' class='well'>Upload</h1>
     
-        {!! Form::open() !!}
+        {!! Form::open(['url'=>"store", 'method'=>"get", 'enctype'=>'multipart/form-data']) !!}
             {!! Form::file('arquivo', ['class'=>'form-control']) !!}<br />
             {!! Form::submit('Enviar', ['class'=>'form-control btn btn-primary']) !!}
         {!! Form::close() !!}

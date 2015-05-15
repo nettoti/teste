@@ -62,6 +62,10 @@ class SalesController extends Controller {
         
         public function storeUpload(Request $request)
         {
-            //
+            $file = $request->file('arquivo');
+
+            $extension = $file->getClientOriginalExtension();
+            
+            return 'ok';
         }
 }
