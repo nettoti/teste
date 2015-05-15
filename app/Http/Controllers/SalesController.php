@@ -54,5 +54,14 @@ class SalesController extends Controller {
 
             return view('sales.list',['sales'=>$sales]);
         }
-
+        
+        public function sumPrice(){
+            $users = DB::table('sales')
+                ->select('department', DB::raw('SUM(price) as total_sales'));
+        }
+        
+        public function storeUpload(Request $request)
+        {
+            //
+        }
 }
