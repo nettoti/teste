@@ -17,7 +17,7 @@ Route::get('/', 'SalesController@index');
 Route::get('list', 'SalesController@listSales');
 Route::post('upload', 'SalesController@Upload');
 
-Route::get('home', 'HomeController@index');
+Route::get('home', 'SalesController@index');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
