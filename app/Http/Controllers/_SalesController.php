@@ -57,20 +57,46 @@ class SalesController extends Controller {
             return view('sales.list',['sales'=>$sales]);
         }
         
-        public function Upload(Request $request)
+        public function Upload(Request $request, Sale $sale)
         {
             $file = $request->file('arquivo');
-
+            //Guarda Cabeçalho
+            $file = fopen($file, 'r');
+            
+            $headder =  fgets($file);
+            
+            $line = fgetcsv($file, 0, "\t");
+            
+            
+            
+            $i = 0;
+            while (($row = fgetcsv($file, 0, "\t")) !== FALSE) { 
+                //Pula Cabeçalho
+                //if(!$headder){
+                //    continue;
+                //}//Pula Cabeçalho
+                
+                $line[$i] = [
+                    $row[0], $row[1], $row[2], $row[3], $row[4]
+                ];
+                $i++;
+            }
+            
+            dd($line);
+            
+            //$sale::create($line[0]);$sale::create($line[0]);
+            //return view('sales.confirm', ['lines'=>$lines]);
+            return view('sales.confirm',['line'=>$line]);
+            
+            
             //$extension = $file->getClientOriginalExtension();
-            $this->parser($file);
+            //$this->parser($file);
             //return 'ok';
         }
         
         public function parser($file)
         {
             $file = fopen($file, 'r');
-            //Guarda o Cabeçalho
-            $headder =  fgets($file);
             
             $i = 0;
             while (($row = fgetcsv($file, 0, "\t")) !== FALSE) { 
@@ -79,21 +105,19 @@ class SalesController extends Controller {
                 ];
                 $i++;
             }
-            //var_dump($line);
-            return view('sales.confirm');
+            return view('sales.confirm')->with('line', $line);
+            //return view('sales.confirm');
         }
         
         
         public function parse($file)
         { 
             $file = fopen($file, "r");
-            //$headder =  fgets($file);
+            
 
             while (($col = fgetcsv($file, 1000, "\t")) !== FALSE) { 
 
-                if(!$headder){
-                    continue;
-                }
+
                 $this->setPurchaserName   ($col[0]);
                 $this->setItemDescription ($col[1]);
                 $this->setItemPrice       ($col[2]);
