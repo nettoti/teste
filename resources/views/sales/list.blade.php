@@ -9,14 +9,14 @@
         <table class='table table-hover table-striped'>           
             <thead>
                 <tr>
-                    <th>id</th>
-                    <th>user</th>
-                    <th>purchaser_name</th>
-                    <th>item_description</th>
-                    <th>item_price</th>
-                    <th>purchase_count</th>
-                    <th>merchant_address</th>
-                    <th>merchant_name</th>
+                    <th>Nº</th>
+                    <th>Usuário</th>
+                    <th>Cliente</th>
+                    <th>Produto</th>
+                    <th>Valor</th>
+                    <th>Qtd</th>
+                    <th>Endereço</th>
+                    <th>Loja</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -24,7 +24,7 @@
                 <tr>
                     <td colspan='3'></td>
                     <td></td>
-                    <td></td>
+                    <td>Total R$ {{ $total }}</td>
                     <td colspan='4'></td>
                 </tr>
             </tfoot>
@@ -35,7 +35,7 @@
                     <td>{{ $sale->user->name }}</td>
                     <td>{{ $sale->purchaser_name }}</td>
                     <td>{{ $sale->item_description }}</td>
-                    <td>{{ $sale->item_price }}</td>
+                    <td>R$ {{ $sale->item_price }}</td>
                     <td>{{ $sale->purchase_count }}</td>
                     <td>{{ $sale->merchant_address }}</td>
                     <td>{{ $sale->merchant_name }}</td>

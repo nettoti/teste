@@ -66,7 +66,10 @@ class SalesController extends Controller {
     {
         $sales = Sale::all();
         $user = $sale->user();
-        return view('sales.list',['sales'=>$sales]);
+        
+        $total = DB::table('sales')->sum('item_price');
+               
+        return view('sales.list',['sales'=>$sales, 'total'=>$total]);
     }
 
     public function upload(Request $request)
@@ -88,6 +91,7 @@ class SalesController extends Controller {
         $this->parser($this->file, $this->fileHeader);  
         
         $this->filePrice = number_format($this->filePrice, 1, '.', '');
+        
         return view('sales.confirm', [
             'fileArray' =>$this->fileArray,
             'filePrice' =>$this->filePrice,
