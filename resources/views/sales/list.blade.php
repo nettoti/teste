@@ -10,6 +10,7 @@
             <thead>
                 <tr>
                     <th>id</th>
+                    <th>user</th>
                     <th>purchaser_name</th>
                     <th>item_description</th>
                     <th>item_price</th>
@@ -24,24 +25,25 @@
                     <td colspan='3'></td>
                     <td></td>
                     <td></td>
-                    <td colspan='3'></td>
+                    <td colspan='4'></td>
                 </tr>
             </tfoot>
             <tbody>
                 @foreach($sales as $sale)
                 <tr>
-                <td>{{ $sale->id }}</td>
-                <td>{{ $sale->purchaser_name }}</td>
-                <td>{{ $sale->item_description }}</td>
-                <td>{{ $sale->item_price }}</td>
-                <td>{{ $sale->purchase_count }}</td>
-                <td>{{ $sale->merchant_address }}</td>
-                <td>{{ $sale->merchant_name }}</td>
+                    <td>{{ $sale->id }}</td>
+                    <td>{{ $sale->user->name }}</td>
+                    <td>{{ $sale->purchaser_name }}</td>
+                    <td>{{ $sale->item_description }}</td>
+                    <td>{{ $sale->item_price }}</td>
+                    <td>{{ $sale->purchase_count }}</td>
+                    <td>{{ $sale->merchant_address }}</td>
+                    <td>{{ $sale->merchant_name }}</td>
                 
-                <td>
-                    <a href="#">Editar</a> | 
-                    <a href="#">Remover</a>
-                </td>
+                    <td>
+                        <!--<a href="#">Editar</a> | -->
+                        <a href="destroy/{{ $sale->id }}">Remover</a>
+                    </td>
                 
                 </td>
                 </tr>

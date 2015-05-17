@@ -17,6 +17,21 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+        <style>
+            .navbar{
+                background: #191919;
+                box-shadow: 0px 2px 2px #444;
+                border-radius: 0;
+                border-color: #191919;
+                color: #DBFFB4;
+            }
+            .footer{
+                background: #191919;
+                position: fixed;
+                bottom: 0;
+                z-index: 9999;
+            }
+        </style>
 </head>
 <body>
 	<nav class="navbar navbar-default">
@@ -32,13 +47,14 @@
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="{{ url('/') }}">Home</a></li>
+					<li><a href="{{ url('/') }}">Home/Upload</a></li>
+					<li><a href="{{ url('/list') }}">Lista/Banco</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
 						<li><a href="{{ url('/auth/login') }}">Login</a></li>
-						<!--<li><a href="{{ url('/auth/register') }}">Register</a></li>-->
+						<li><a href="{{ url('/auth/register') }}">Register</a></li>
 					@else
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
@@ -51,9 +67,11 @@
 			</div>
 		</div>
 	</nav>
-
+    <br /><br />
+    <div class='footer col-md-12'>
+        <div class='col-md-10'>&nbsp;</div>
+    </div>
 	@yield('content')
-
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>

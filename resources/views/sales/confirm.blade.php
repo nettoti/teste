@@ -6,7 +6,7 @@
     
     <div class='row col-md-12'>
         <div class="well"><h3>File name: {{ $fileName }}</h3></div>
-        <table class='table table-hover table-striped'>           
+        <table class='table table-striped well'>           
             <thead>
                 <tr>
                     <th>purchaser_name</th>

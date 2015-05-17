@@ -1,0 +1,11 @@
+{
+    "name" : "Projeto",
+    "autoload" : {
+        "psr-4" : {
+            "Projeto\\" : "src/"
+        }
+    },
+    "require" : {
+       
+    }
+}
