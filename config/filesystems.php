@@ -47,6 +47,12 @@ return [
 			'driver' => 'local',
 			'root'   => storage_path().'/app',
 		],
+                
+                'local_files' => [
+                    
+                        'driver' => 'local',
+                        'root'   => storage_path().'/upload'
+                ],
 
 		's3' => [
 			'driver' => 's3',

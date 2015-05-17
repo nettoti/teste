@@ -3,125 +3,118 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Sale;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 use Illuminate\Http\Request;
 
 class SalesController extends Controller {
-
-    	public function __construct()
-	{
-		$this->middleware('auth');
-	}    
     
-	public function index()
-	{
-            return view('sales.index');
-	}
+    private $file;
+    private $fileArray;
+    private $fileName;
+    private $fileHeader;
+    private $filePrice = 0;
+    private $fileItens = 0;
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }    
 
-	public function create()
-	{
+    public function index()
+    {
+        return view('sales.index');
+    }
 
-	}
-
-	public function store()
-	{
-		//
-	}
-
-	public function show($id)
-	{
-		//
-	}
-
-	public function edit($id)
-	{
-		//
-	}
-
-	public function update($id)
-	{
-		//
-	}
-
-	public function destroy($id)
-	{
-		//
-	}
+    public function create(Sale $sale, $fileName)
+    {   
+        $this->file = fopen(storage_path().'/upload/' . $fileName, 'r');
+        $this->fileHeader = fgets($this->file);
         
-        public function listSales()
-        {
-            $sales = Sale::all();
-            
-            //$price = DB::table('sales')->sum('item_price');
-
-            return view('sales.list',['sales'=>$sales]);
+        $this->parser($this->file, $this->fileHeader);
+        
+        foreach ($this->fileArray as $dados){
+            $sale->purchaser_name = $dados[0];
+            $sale->user_id = 1;
+            $sale->save();
+            $sale->push();
+            var_dump($sale->purchaser_name);
         }
+      
+    }
+
+    public function store()
+    {
+            //
+    }
+
+    public function show($id)
+    {
+            //
+    }
+
+    public function edit($id)
+    {
+            //
+    }
+
+    public function update($id)
+    {
+            //
+    }
+
+    public function destroy($id)
+    {
+            //
+    }
+
+    public function listSales()
+    {
+        $sales = Sale::all();
+        return view('sales.list',['sales'=>$sales]);
+    }
+
+    public function upload(Request $request)
+    {
+        $this->file = $request->file('arquivo');
+        $this->fileName = $this->file->getClientOriginalName();      
+        Storage::disk('local_files')->put($this->fileName/* . "_" . rand() . "_" . date('d-m-Y')*/, File::get($this->file));
+        $this->file = fopen($this->file, 'r');
+        $this->fileHeader =  fgets($this->file);
         
-        public function Upload(Request $request, Sale $sale)
-        {
-            $file = $request->file('arquivo');
-            //Guarda Cabeçalho
-            $file = fopen($file, 'r');
+        $this->parser($this->file, $this->fileHeader);  
+        
+//        if($this->fileArray == NULL){
+//            return view('sales.index');
+//        }
+        
+        $this->filePrice = number_format($this->filePrice, 1, '.', '');
+        return view('sales.confirm', [
+            'fileArray' =>$this->fileArray,
+            'filePrice' =>$this->filePrice,
+            'fileItens' =>$this->fileItens,
+            'fileName'  =>$this->fileName,
+        ]);
+    }
+    
+    public function parser($file, $header)
+    {           
+        $i = 0;
+        while (($row = fgetcsv($this->file, 0, "\t")) !== FALSE) { 
+            //Pula Cabeçalho        
+            if(!$this->fileHeader){
+                continue;
+            }//Pula Cabeçalho
             
-            $headder =  fgets($file);
-            
-            $cont = 0;
-            $price = 0;              
-            $i = 0;
-            while (($row = fgetcsv($file, 0, "\t")) !== FALSE) { 
-                //Pula Cabeçalho
-                if(!$headder){
-                    continue;
-                }//Pula Cabeçalho
-                
-                $line[$i] = [
+                $this->fileArray[$i] = [
                     $row[0], $row[1], $row[2], $row[3], $row[4], $row[5]
                 ];
-                
-                $cont += $line[$i][3];
-                $price += $line[$i][2];
-                
-                $i++;
-            }
-            $price = number_format($price, 1, '.', '');
-            
-            return view('sales.confirm', compact('line', 'price', 'cont'));
-            //return view('sales.confirm', ['line'=>$line]);
-
+                $this->fileItens  += $this->fileArray[$i][3];
+                $this->filePrice  += $this->fileArray[$i][2];
+            $i++; 
         }
-        
-        public function parser($file)
-        {
-            $file = fopen($file, 'r');
-            
-            $i = 0;
-            while (($row = fgetcsv($file, 0, "\t")) !== FALSE) { 
-                $line[$i] = [
-                    $row[0], $row[1], $row[2], $row[3], $row[4], $row[5]
-                ];
-                $i++;
-            }
-            return view('sales.confirm')->with('line', $line);
-            //return view('sales.confirm');
-        }
-        
-        
-        public function parse($file)
-        { 
-            $file = fopen($file, "r");
-            
+    }
 
-            while (($col = fgetcsv($file, 1000, "\t")) !== FALSE) { 
-
-
-                $this->setPurchaserName   ($col[0]);
-                $this->setItemDescription ($col[1]);
-                $this->setItemPrice       ($col[2]);
-                $this->setPurchaseCount   ($col[3]);
-                $this->setMerchantAddress ($col[4]);
-                $this->setMerchantName    ($col[5]);
-
-                $this->insert();
-            }
-        }
 }
